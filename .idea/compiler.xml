@@ -4,8 +4,6 @@
     <bytecodeTargetLevel>
       <module name="common_jvmMain" target="1.6" />
       <module name="common_jvmTest" target="1.6" />
-      <module name="HelloMPP-common_jvmMain" target="1.6" />
-      <module name="HelloMPP-common_jvmTest" target="1.6" />
     </bytecodeTargetLevel>
   </component>
 </project>
