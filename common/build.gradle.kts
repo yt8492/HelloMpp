@@ -3,24 +3,8 @@ plugins {
     id("com.android.library")
 }
 
+androidCommon()
 android {
-    compileSdkVersion(29)
-    buildToolsVersion = "29.0.2"
-
-    defaultConfig {
-        minSdkVersion(23)
-        targetSdkVersion(29)
-        versionCode = 1
-        versionName = "1.0"
-    }
-
-    buildTypes {
-        getByName("release") {
-            isMinifyEnabled = false
-            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"), "proguard-rules.pro")
-        }
-    }
-
     sourceSets.forEach {
         it.manifest.srcFile("src/androidMain/AndroidManifest.xml")
     }
@@ -36,23 +20,17 @@ kotlin {
     sourceSets {
         val commonMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-common"))
-            }
-        }
-        val commonTest by getting {
-            dependencies {
-                implementation(kotlin("test-common"))
-                implementation(kotlin("test-annotations-common"))
+                implementation(Dependencies.Kotlin.common)
             }
         }
         val jvmMain by getting {
             dependencies {
-                implementation(kotlin("stdlib"))
+                implementation(Dependencies.Kotlin.jvm)
             }
         }
         val androidMain by getting {
             dependencies {
-                implementation(kotlin("stdlib-jdk7"))
+                implementation(Dependencies.Kotlin.jvm)
             }
         }
     }
