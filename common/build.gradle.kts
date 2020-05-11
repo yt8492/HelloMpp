@@ -1,3 +1,6 @@
+import com.android.build.gradle.internal.tasks.factory.dependsOn
+import org.jetbrains.kotlin.gradle.plugin.mpp.KotlinNativeTarget
+
 plugins {
     kotlin("multiplatform")
     id("com.android.library")
@@ -10,12 +13,25 @@ android {
     }
 }
 
+val ideaActive = System.getProperty("idea.active") == "true"
+
 kotlin {
-    /* Targets configuration omitted.
-    *  To find out how to configure the targets, please follow the link:
-    *  https://kotlinlang.org/docs/reference/building-mpp-with-gradle.html#setting-up-targets */
+    val buildForDevice = project.findProperty("device") as? Boolean ?: false
+    fun iosTarget(configure: KotlinNativeTarget.() -> Unit) = if(buildForDevice) {
+        iosArm64("ios", configure)
+    } else {
+        iosX64("ios", configure)
+    }
+
     android("android")
     jvm()
+    iosTarget {
+        binaries {
+            framework {
+                freeCompilerArgs += "-Xobjc-generics"
+            }
+        }
+    }
 
     sourceSets {
         val commonMain by getting {
@@ -32,6 +48,8 @@ kotlin {
             dependencies {
                 implementation(Dependencies.Kotlin.jvm)
             }
+        }
+        val iosMain by getting {
         }
     }
 }
